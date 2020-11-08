@@ -12,8 +12,10 @@ app.on('ready', async () => {
   await prepareNext('./renderer')
 
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    // width: 800,
+    width: 1920,
+    // height: 600,
+    height: 1280,
     webPreferences: {
       nodeIntegration: false,
       preload: join(__dirname, 'preload.js'),

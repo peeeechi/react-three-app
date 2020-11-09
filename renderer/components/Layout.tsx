@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
+import SideBar from './SideBar';
 
 type Props = {
   children: ReactNode
@@ -16,30 +17,23 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
       <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     </Head>
 
-    <input type="checkbox" id="check"/>
-    <label htmlFor="check">
-      <i className="fas fa-bars" id="btn"></i>
-      <i className="fas fa-times" id="cancel"></i>
-    </label>
-    <div className="sidebar">
-      <header>My App</header>
+    <SideBar header="Three App">
       <ul>
-        <li><a href="#"><i className="fas fa-qrcode">Dashboard</i></a></li>
-        <li><a href="#"><i className="fas fa-link">Shortcuts</i></a></li>
-        <li><a href="#"><i className="fas fa-stream">Overview</i></a></li>
-        <li><a href="#"><i className="fas fa-calendar-week">Events</i></a></li>
-        <li><a href="#"><i className="fas fa-question-circle">About</i></a></li>
-        <li><a href="#"><i className="fas fa-sliders-h">Services</i></a></li>
-        <li><a href="#"><i className="fas fa-envelope">Contacts</i></a></li>
+          <li><Link href="#"><a><i className="fas fa-qrcode">Dashboard</i></a></Link></li>
+          <li><Link href="#"><a><i className="fas fa-link">Shortcuts</i></a></Link></li>
+          <li><Link href="#"><a><i className="fas fa-stream">Overview</i></a></Link></li>
+          <li><Link href="#"><a><i className="fas fa-calendar-week">Events</i></a></Link></li>
+          <li><Link href="#"><a><i className="fas fa-question-circle">About</i></a></Link></li>
+          <li><Link href="#"><a><i className="fas fa-sliders-h">Services</i></a></Link></li>
+          <li><Link href="#"><a><i className="fas fa-envelope">Contacts</i></a></Link></li>
       </ul>
-    </div>
+    </SideBar>
+
 
     <main>
       {children}
     </main>
 
-
-    
     
     <footer>
       <hr />

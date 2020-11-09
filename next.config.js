@@ -9,6 +9,8 @@ module.exports = {
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     console.log(config);
+    config.resolve.alias['@'] = path.resolve(__dirname, './renderer');
+
     return config;
   },
 };

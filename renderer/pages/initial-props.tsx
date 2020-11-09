@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Layout from '../components/Layout'
-import List from '../components/List'
-import { User } from '../interfaces'
-import { findAll } from '../utils/sample-api'
+import Layout from '@/components/Layout'
+import List from '@/components/List'
+import { User } from '@/interfaces'
+import { findAll } from '@/utils/sample-api'
 
 type Props = {
   items: User[]

@@ -1,9 +1,14 @@
 import {AppProps} from 'next/app';
-import '@/styles/global.css';
-import '@/styles/style.css';
+import '@/styles/global.scss';
+import Layout from '@/components/Layout';
+// import '@/styles/styles.scss';
 
 function MyApp({Component, pageProps}: AppProps) {
-    return <Component {...pageProps} />
+    return (
+    <Layout title="minebea force sonsor viewer">
+      <Component {...pageProps} />
+    </Layout>
+    );
   }
 
 export default MyApp;

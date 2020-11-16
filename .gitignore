@@ -31,12 +31,21 @@ yarn-error.log*
 .env.production.local
 
 renderer/styles/*.css
+renderer/styles/*.css.map
 
 # vercel
 .vercel
+.vs
 
 # add
 /main
 /dist
 /renderer/.next
 /renderer/out
+
+
+# api-server(asp dotnet core -- webapi)
+/api-server/bin/
+/api-server/obj/
+/MinebeaSensorLib/bin/
+/MinebeaSensorLib/obj/

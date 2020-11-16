@@ -2,6 +2,139 @@
 
 @tailwind components;
 
+$side-bar-slide-width: 300px;
+
+
+body {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 200, 0.8));
+  background-size: cover;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+}
+
+.sidebar {
+  position: fixed;
+  left: -$side-bar-slide-width;
+  width: $side-bar-slide-width;
+  height: 100%;
+  background: #042331;
+  //   background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 6px rgba($color: #ffffff, $alpha: 0.5);
+  transition: all 0.5s ease;
+
+  header {
+    font-size: 22px;
+    color: white;
+    text-align: center;
+    line-height: 70px;
+    background: #063146;
+    user-select: none;
+  }
+
+  ul {
+    a {
+      display: block;
+      height: 100%;
+      width: 100%;
+      line-height: 65px;
+      font-size: 20px;
+      color: white;
+      padding-left: 40px;
+      box-sizing: border-box;
+      border-top: 1px solid rgba($color: #ffffff, $alpha: 0.3);
+      border-bottom: 1px solid rgba($color: #ffffff, $alpha: 0.3);
+      transition: 0.5s;
+
+      i {
+        margin-right: 16px;
+        transition: 0.5s;
+      }
+    }
+
+    li:hover {
+      background-color: rgba($color: #ffffff, $alpha: 0.1);
+      a {
+        padding-left: 50px;
+      }
+
+      i {
+        color: lime;
+      }
+    }
+  }
+}
+
+#check {
+  display: none;
+
+  &:checked {
+    ~ {
+      .sidebar {
+        left: 0;
+      }
+
+      label {
+        #btn {
+          left: $side-bar-slide-width;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #cancel {
+          left: $side-bar-slide-width - 55px;
+        }
+      }
+
+      main {
+        margin-left: $side-bar-slide-width;
+      }
+    }
+  }
+}
+
+label {
+  #btn,
+  #cancel {
+    position: absolute;
+    cursor: pointer;
+    background: #042331;
+    border-radius: 3px;
+  }
+
+  #btn {
+    left: 40px;
+    top: 25px;
+    font-size: 25px;
+    color: white;
+    padding: 6px 12px;
+    transition: all 0.5s;
+  }
+
+  #cancel {
+    z-index: 1111;
+    left: -195px;
+    top: 17px;
+    font-size: 30px;
+    color: #0a5275;
+    padding: 4px 9px;
+    transition: all 0.5s;
+  }
+}
+
+main {
+  height: 100vh;
+  //   margin: 100px 20px;
+  transition: all 0.5s;
+}
+
+
 .btn-blue {
   @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
 }

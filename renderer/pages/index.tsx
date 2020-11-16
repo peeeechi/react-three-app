@@ -1,16 +1,11 @@
-import Link from 'next/link'
+import React from 'react';
 import Layout from '@/components/Layout'
 
-const IndexPage = () => {
+const IndexPage: React.FunctionComponent = () => {
   return (
-    <Layout title="Home | Next.js + TypeScript + Electron Example">
+    <>
       <h1>Hello Next.js 👋</h1>
-      <p>
-        <Link href="/three-area">
-          <a>three</a>
-        </Link>
-      </p>
-    </Layout>
+    </>
   )
 }
 

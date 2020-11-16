@@ -19,22 +19,15 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
 
     <SideBar header="Three App">
       <ul>
-          <li><Link href="#"><a><i className="fas fa-qrcode">Dashboard</i></a></Link></li>
-          <li><Link href="#"><a><i className="fas fa-link">Shortcuts</i></a></Link></li>
-          <li><Link href="#"><a><i className="fas fa-stream">Overview</i></a></Link></li>
-          <li><Link href="#"><a><i className="fas fa-calendar-week">Events</i></a></Link></li>
-          <li><Link href="#"><a><i className="fas fa-question-circle">About</i></a></Link></li>
-          <li><Link href="#"><a><i className="fas fa-sliders-h">Services</i></a></Link></li>
-          <li><Link href="#"><a><i className="fas fa-envelope">Contacts</i></a></Link></li>
+          <li><Link href="/"><a><i aria-hidden className="fas fa-qrcode">Main page</i></a></Link></li>
+          <li><Link href="/three-area"><a><i aria-hidden className="fas fa-link">Force sensor view</i></a></Link></li>
       </ul>
     </SideBar>
-
 
     <main>
       {children}
     </main>
 
-    
     <footer>
       <hr />
       <span>I'm here to stay (Footer)</span>

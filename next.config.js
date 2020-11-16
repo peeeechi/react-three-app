@@ -54,9 +54,9 @@ module.exports = withTM({
 
     // config.plugins.
 
-    const filename = isServer? "server.json": "client.json";
+    // const filename = isServer? "server.json": "client.json";
 
-    fs.writeFileSync(filename, JSON.stringify(config, null, "\t"), {encoding: "utf-8"});
+    // fs.writeFileSync(filename, JSON.stringify(config, null, "\t"), {encoding: "utf-8"});
 
      return config;
   },

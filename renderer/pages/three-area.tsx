@@ -1,5 +1,6 @@
 import React from 'react';
 import {THREE_AREA_ID} from '@/utils/constant';
+import * as three from 'three';
 import {threeApi} from '@/utils/instance-store';
 import WebSocketClient from '@/utils/websocket-client';
 import {loadGLTF} from '@/utils/three-api';
@@ -10,7 +11,7 @@ import { ForceSensorResponse } from '@/interfaces/force-sensor-response';
 let forceSensorClient: WebSocketClient|null = null;
 
 type ThreeAreaState = {
-    forceSensorResponse: ForceSensorResponse
+    forceSensorResponse: ForceSensorResponse,
 };
 
 class ThreeAreaPage extends React.Component<any, ThreeAreaState>{
@@ -23,9 +24,18 @@ class ThreeAreaPage extends React.Component<any, ThreeAreaState>{
                 "sensor-1": null,
                 "sensor-2": null,
                 "time-stamp": 0,
-            }
+            },
         };
     }
+
+    private sensor1obj: three.ArrowHelper = new three.ArrowHelper(
+        new three.Vector3(0,0,1), /* dir */
+        new three.Vector3(0,0,0), /* origin */
+        0, /* length */
+        0xffffff, /* color */
+        0.2,
+        0.2
+    );
 
     componentDidMount() {
         console.log("did mounted");
@@ -37,11 +47,16 @@ class ThreeAreaPage extends React.Component<any, ThreeAreaState>{
         });
 
         forceSensorClient.MessageReceivedEvent.push((event) => {
-            const res = event.data as ForceSensorResponse;
+            const resJson = event.data;
+            const res = JSON.parse(resJson) as ForceSensorResponse;
             console.log(res);
             this.setState({forceSensorResponse: res});
+            this.test(res);
         });
+
+
         threeApi.init();
+        threeApi.addObject(this.sensor1obj);
         loadGLTF("minebea-force-sensor.glb").then(gltf => {
             threeApi.addObject(gltf.scene);
             threeApi.setTrackball(gltf.scene.position);
@@ -55,10 +70,20 @@ class ThreeAreaPage extends React.Component<any, ThreeAreaState>{
         threeApi.disposeTrackball();
     }
 
+    test(response: ForceSensorResponse) {
+        const sensor1 = response["sensor-1"];
+
+        if (sensor1 != null) {
+            const dir = new three.Vector3(sensor1.fx, sensor1.fy, sensor1.fz);
+            this.sensor1obj.setDirection(dir);
+            this.sensor1obj.setLength(dir.length());
+        }
+    }
+
     render() {
         return (
             <div>
-                <canvas id={THREE_AREA_ID} width="1620" height="880"></canvas>
+                <canvas id={THREE_AREA_ID} width="1000" height="500"></canvas>
 
                 <h3>sensor 1</h3>
                 <table>

@@ -22,10 +22,10 @@ namespace api_server
                 this.isStop = false;
 
                 var random = new Random();
-
+                var seed = 2.0;
                 while(!this.isStop)
                 {
-                    var randomFArray = Enumerable.Range(0, 6).Select(i => 2.0f * Convert.ToSingle(random.NextDouble())).ToArray();
+                    var randomFArray = Enumerable.Range(0, 6).Select(i => Convert.ToSingle(seed * random.NextDouble() - seed/2.0)).ToArray();
                     var data = new ForceSensorData
                     {
                         Fx=randomFArray[0],

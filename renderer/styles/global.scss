@@ -128,15 +128,34 @@ label {
   }
 }
 
+.toggle__dot {
+  top: -.25rem;
+  left: -.25rem;
+  transition: all 0.3s ease-in-out;
+}
+
+input:checked ~ .toggle__dot {
+  transform: translateX(100%);
+  background-color: #48bb78;
+}
+
 main {
   height: 100vh;
   //   margin: 100px 20px;
   transition: all 0.5s;
 }
 
+.container-flex {
+  @apply flex mb-4;
+
+  .flex-item {
+    @apply w-1/2 p-2 text-center object-fill;
+  }
+}
+
 
 .btn-blue {
-  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded m-2;
 }
 
 .hero {

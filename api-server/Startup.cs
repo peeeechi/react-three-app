@@ -26,6 +26,12 @@ namespace api_server
         {
             Configuration = configuration;
         }
+        
+        void OnStopping()
+        {
+            Console.WriteLine("Shutdown...");
+        }
+
 
         public IConfiguration Configuration { get; }
 
@@ -42,9 +48,12 @@ namespace api_server
             });
 
             // DI�R���e�i�֓o�^
-            services.AddWebSocketChatHandler();
+            services.AddWebSocketChatHandler()
+                .LoadAppSettings(AppConst.SETTING_FILE_PATH)
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,13 +87,18 @@ namespace api_server
 
             app.UseWebSockets(webSocketOptions);
 
+            
+
             //var webSocketReceiver = new WebSocketReceiver();
             //app.Use(webSocketReceiver.Receive);
 
-            app.MapWebSocketChatMiddleware("/chat", serviceProvider.GetService<ChatMessageHandler>());
-            app.MapWebSocketChatMiddleware("/force-sensor-test", serviceProvider.GetService<ForceSensorTestHandler>());
-            // app.MapWebSocketChatMiddleware("/force-sensor", serviceProvider.GetService<ForceSensorHandler>());
-
+            //app.MapWebSocketChatMiddleware("/chat", serviceProvider.GetService<ChatMessageHandler>());
+            //app.MapWebSocketChatMiddleware("/force-sensor-test/1", serviceProvider.GetService<ForceSensorTestHandlerSingle>());
+            //app.MapWebSocketChatMiddleware("/force-sensor-test/2", serviceProvider.GetService<ForceSensorTestHandlerDouble>());
+            //app.MapWebSocketChatMiddleware("/force-sensor/1", serviceProvider.GetService<ForceSensorHandlerSingle>());
+            app.MapWebSocketChatMiddleware("/force-sensor/1", serviceProvider.GetService<SensorInfoHandler>());
+            //app.MapWebSocketChatMiddleware("/force-sensor/2", serviceProvider.GetService<ForceSensorHandlerDouble>());
+            //app.MapWebSocketChatMiddleware("/robot-info", serviceProvider.GetService<RobotInfoHandler>());
 
             // WebSocket  �̐ݒ� ----------------------------------------------- ��
 

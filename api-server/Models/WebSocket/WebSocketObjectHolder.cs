@@ -44,6 +44,8 @@ namespace api_server
             return soc.Equals(default(KeyValuePair<string, WebSocket>)) ? null : soc.Key;
         }
 
+        public int Count { get => _sockets.Count; }
+
 
         public void AddSocket(WebSocket socket)
         {

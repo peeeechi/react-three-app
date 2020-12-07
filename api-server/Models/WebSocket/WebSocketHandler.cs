@@ -8,8 +8,10 @@ using System.Net.WebSockets;
 
 namespace api_server
 {
-    public abstract class WebSocketHandler
+    public abstract class WebSocketHandler: IDisposable
     {
+        private bool disposedValue;
+
         protected WebSocketObjectHolder WebSocketObjectHolder { get; set; }
 
         public WebSocketHandler(WebSocketObjectHolder webSocketObjectHolder)
@@ -122,6 +124,22 @@ namespace api_server
             }
         }
 
+         /// <summary>
+        /// 登録されているsocket 全てを切断します
+        /// </summary>
+        /// <returns></returns>
+        public async Task SendCloseToAllAsync()
+        {
+            foreach (var pair in WebSocketObjectHolder.GetAll())
+            {
+                if (pair.Value.State == WebSocketState.Open)
+                {
+                    Console.WriteLine($"{pair.Key}: send close message...");
+                    await WebSocketObjectHolder.RemoveSocket(pair.Key);
+                }
+            }
+        }
+
         /// <summary>
         /// 登録されているsocket 全てへメッセージを送信します(文字列として送信します)
         /// </summary>
@@ -148,5 +166,37 @@ namespace api_server
         /// <param name="buffer"></param>
         /// <returns></returns>
         public abstract Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, byte[] buffer);
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: マネージド状態を破棄します (マネージド オブジェクト)
+                }
+
+                // TODO: アンマネージド リソース (アンマネージド オブジェクト) を解放し、ファイナライザーをオーバーライドします
+                // TODO: 大きなフィールドを null に設定します
+                Task t = this.SendCloseToAllAsync();
+
+                t.Wait(1000);
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: 'Dispose(bool disposing)' にアンマネージド リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします
+        // ~WebSocketHandler()
+        // {
+        //     // このコードを変更しないでください。クリーンアップ コードを 'Dispose(bool disposing)' メソッドに記述します
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // このコードを変更しないでください。クリーンアップ コードを 'Dispose(bool disposing)' メソッドに記述します
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

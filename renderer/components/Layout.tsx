@@ -20,7 +20,9 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
     <SideBar header="Three App">
       <ul>
           <li><Link href="/"><a><i aria-hidden className="fas fa-qrcode">Main page</i></a></Link></li>
-          <li><Link href="/three-area"><a><i aria-hidden className="fas fa-link">Force sensor view</i></a></Link></li>
+          <li><Link href="/three-area1"><a><i aria-hidden className="fas fa-link">Force sensor (1 sensor) view</i></a></Link></li>
+          <li><Link href="/three-area2"><a><i aria-hidden className="fas fa-link">Force sensor (2 sensor) view</i></a></Link></li>
+          <li><Link href="/tailwind"><a><i aria-hidden className="fas fa-link">Tail wind layout view</i></a></Link></li>
       </ul>
     </SideBar>
 

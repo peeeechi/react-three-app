@@ -1,5 +1,4 @@
 import * as three from 'three';
-import { THREE_AREA_ID } from './constant';
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -31,6 +30,33 @@ export const loadGLTF = async (filepath: string) => {
 
         gltfLoader.load(filepath, onload, onProgress, onError);
     });
+}
+
+export function changeMaterial(children: three.Object3D[], opacity: number) {
+
+    children.forEach(element => {
+
+        if (element.type ==='Mesh') {
+            const mesh              = element as three.Mesh;
+            mesh.castShadow         = true;
+            mesh.receiveShadow      = true;
+            const material          = mesh.material as three.Material;
+            material.transparent    = true;
+            material.opacity        = opacity;
+        }
+        console.log(`name:${element.name}, type:${element.type}`);
+        if (element.children.length > 0) {
+            changeMaterial(element.children, opacity);
+        }
+    });
+}
+
+
+export function deg2rad(deg: number) {
+    return deg * Math.PI / 180.0;
+}
+export function rad2deg(rad: number) {
+    return rad * 180.0 / Math.PI;
 }
 
 export default class ThreeApi {
@@ -69,7 +95,7 @@ export default class ThreeApi {
         // カメラを作成
         this.camera = new three.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight)
         this.camera.rotateY(90.0 * Math.PI / 180.0);
-        this.camera.position.set(5, -10, 5);
+        this.camera.position.set(0, -100, 50);
         this.camera.lookAt(0,0,0);
         // this.camera.rotation.order = "ZYX";
 
@@ -91,24 +117,24 @@ export default class ThreeApi {
             return axis;
         }
 
-        const axis = createHelper(0, 0, 0, 10);
+        const axis = createHelper(0, 0, 0, 100);
         this.scene.add(axis);
 
         const createGrid = (size: number, divisions: number) => {
             return new three.GridHelper( size, divisions, 0x777777, 0x333333);
         }
 
-        const xyGrid = createGrid(10, 10);
-        const xzGrid = createGrid(10, 10);
-        const yzGrid = createGrid(10, 10);
+        const xyGrid = createGrid(100, 10);
+        const xzGrid = createGrid(100, 10);
+        const yzGrid = createGrid(100, 10);
 
-        xyGrid.position.y += 5;
+        xyGrid.position.y += 50;
 
         xzGrid.rotation.z += Math.PI * 90 / 180;
-        xzGrid.position.x -= 5;
+        xzGrid.position.x -= 50;
 
         yzGrid.rotation.x += Math.PI * 90 / 180;
-        yzGrid.position.z -= 5;
+        yzGrid.position.z -= 50;
 
         this.scene.add(xyGrid);
         this.scene.add(xzGrid);
@@ -157,12 +183,12 @@ export default class ThreeApi {
         // })
 
 
-        const light = new three.AmbientLight(0xffffff, 5);
+        // const light = new three.AmbientLight(0xffffff, 5);
 
-        light.position.set(0, 10, 0);
-        light.castShadow = true;
+        // light.position.set(0, 10, 0);
+        // light.castShadow = true;
 
-        this.scene.add(light);
+        // this.scene.add(light);
 
         canvas.addEventListener('mousemove', this.handleMouseMove);
         window.addEventListener('resize', this.onWindowResize);
@@ -206,16 +232,21 @@ export default class ThreeApi {
      * @memberof ThreeApi
      */
     private onWindowResize = () => {
-        const cWidth = document.getElementById(THREE_AREA_ID)!.clientWidth;
-        const cHeight = document.getElementById(THREE_AREA_ID)!.clientHeight;
 
-        // レンダラーのサイズを調整する
-        this.renderer!.setPixelRatio(window.devicePixelRatio);
-        this.renderer!.setSize( cWidth, cHeight );
+        const canvas = document.getElementById(this._areaID);
 
-        // カメラのアスペクト比を正す
-        this.camera!.aspect = cWidth / cHeight;
-        this.camera!.updateProjectionMatrix();
+        if (canvas != null && window) {
+            const cWidth = canvas.clientWidth;
+            const cHeight = canvas.clientHeight;
+    
+            // レンダラーのサイズを調整する
+            this.renderer!.setPixelRatio(window.devicePixelRatio);
+            this.renderer!.setSize( cWidth, cHeight );
+    
+            // カメラのアスペクト比を正す
+            this.camera!.aspect = cWidth / cHeight;
+            this.camera!.updateProjectionMatrix();
+        }
     }
 
     // private keyEventFunction = (event: KeyboardEvent) => {

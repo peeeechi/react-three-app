@@ -1,0 +1,58 @@
+{
+  "name": "with-electron-typescript",
+  "productName": "ElectronTypescriptNext",
+  "version": "1.0.0",
+  "main": "main/index.js",
+  "scripts": {
+    "clean": "rimraf dist main renderer/out renderer/.next",
+    "start:front": "yarn build-electron && electron .",
+    "dev:front": "next dev ./renderer",
+    "dev": "run-p start:api dev:front",
+    "start:api": "dotnet run -p ./api-server/api-server.csproj",
+    "start": "run-p start:api start:front",
+    "build-renderer": "next build renderer && next export renderer",
+    "build-electron": "tsc -p electron-src",
+    "build": "yarn build-renderer && yarn build-electron",
+    "pack-app": "yarn build && electron-builder --dir",
+    "dist": "yarn build && electron-builder",
+    "type-check": "tsc"
+  },
+  "build": {
+    "asar": true,
+    "files": [
+      "main",
+      "renderer/out"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.21",
+    "@types/plotly.js": "^1.54.2",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/react-plotly.js": "^2.2.4",
+    "@types/three": "^0.103.2",
+    "electron": "^7.1.7",
+    "electron-builder": "^21.2.0",
+    "next": "latest",
+    "next-transpile-modules": "^4.1.0",
+    "npm-run-all": "^4.1.5",
+    "postcss-flexbugs-fixes": "^5.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.0.2",
+    "electron-is-dev": "^1.1.0",
+    "electron-next": "^3.1.5",
+    "plotly.js": "^1.57.1",
+    "postcss-import": "^13.0.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-plotly.js": "^2.5.0",
+    "sass": "^1.29.0",
+    "tailwindcss": "^1.9.6",
+    "three": "^0.122.0"
+  },
+  "license": "MIT"
+}
